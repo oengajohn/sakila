@@ -1,0 +1,37 @@
+services:
+  mysql:
+    image: mysql:latest
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: generic
+      MYSQL_DATABASE: generic
+      MYSQL_USER: generic
+      MYSQL_PASSWORD: generic
+    restart: always
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./db-scripts:/usr/db-scripts
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    links:
+      - mysql
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      MYSQL_ROOT_PASSWORD: generic
+      PMA_ARBITRARY: 1
+    restart: always
+    ports:
+      - 8081:80
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+
+volumes:
+  mysql_data:
