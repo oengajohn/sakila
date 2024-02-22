@@ -1,0 +1,27 @@
+
+server:
+  port: 8080
+  forward-headers-strategy: framework
+spring:
+  r2dbc:
+    url: r2dbc:pool:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:sakila}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWD:generic}
+  application:
+    name: sakila-app
+  flyway:
+    locations: classpath:db/mysql/migrations
+    validate-on-migrate: true
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:sakila}
+    password: ${DB_PASSWD:generic}
+    user: ${DB_USERNAME:root}
+    baseline-on-migrate: true
+logging:
+  level:
+    org.springframework.data.repository: DEBUG
+    org.springframework.r2dbc.core: DEBUG
+springdoc:
+  swagger-ui:
+    enabled: true
+  api-docs:
+    path: /v3/api-docs
